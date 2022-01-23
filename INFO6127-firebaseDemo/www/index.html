@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="img-src 'self' data: https://code.jquery.com; default-src * 'unsafe-inline'; style-src 'self' https://code.jquery.com 'unsafe-inline'; media-src *"/>
+
+    <!-- region jQuery Mobile -->
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!-- endregion -->
+
+    <!-- region Firebase -->
+    <!--Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- endregion -->
+
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>Firebase Demo</title>
+</head>
+
+<body>
+
+<!-- region Page Read -->
+<div data-role="page" id="pageRead">
+    <div data-role="header">
+        <h1>Read</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <h2>Once</h2>
+
+        <label for="studentIdOnce">User ID:</label>
+        <input type="text" name="name" id="studentIdOnce" value="" data-mini="true" disabled/>
+
+        <label for="firstNameOnce">First Name:</label>
+        <input type="text" name="name" id="firstNameOnce" value="" data-mini="true" disabled/>
+
+        <label for="lastNameOnce">Last Name:</label>
+        <input type="text" name="name" id="lastNameOnce" value="" data-mini="true" disabled/>
+
+        <h2>On</h2>
+
+        <label for="studentIdOn">User ID:</label>
+        <input type="text" name="name" id="studentIdOn" value="" data-mini="true" disabled/>
+
+        <label for="firstNameOn">First Name:</label>
+        <input type="text" name="name" id="firstNameOn" value="" data-mini="true" disabled/>
+
+        <label for="lastNameOn">Last Name:</label>
+        <input type="text" name="name" id="lastNameOn" value="" data-mini="true" disabled/>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageRead" class="ui-btn-active ui-state-persist">Read</a></li>
+                <li><a href="#pageWrite">Write</a></li>
+                <li><a href="#pageDelete">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Write -->
+<div data-role="page" id="pageWrite">
+    <div data-role="header">
+        <h1>Write</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h4 id="writeStatusMessage"></h4>
+
+        <h2>Set</h2>
+
+        <label for="firstNameSet">First Name:</label>
+        <input type="text" name="name" id="firstNameSet" value="" data-mini="true"/>
+
+        <button onclick="writeExamples.setFirstName()">Save</button>
+
+        <h2>Update</h2>
+
+        <label for="favouriteColor">Favourite Color:</label>
+        <input type="text" name="name" id="favouriteColor" value="" data-mini="true"/>
+        <button data-inline="true" onclick="writeExamples.updateFavouriteColor()">Update Color</button>
+
+        <label for="favouriteSong">Favourite Song:</label>
+        <input type="text" name="name" id="favouriteSong" value="" data-mini="true"/>
+        <button data-inline="true" onclick="writeExamples.updateFavouriteSong()">Update Song</button>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageRead">Read</a></li>
+                <li><a href="#pageWrite" class="ui-btn-active ui-state-persist">Write</a></li>
+                <li><a href="#pageDelete">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Delete -->
+<div data-role="page" id="pageDelete">
+    <div data-role="header">
+        <h1>Delete</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h4 id="deleteStatusMessage"></h4>
+
+        <h2>Remove</h2>
+        <p>Delete data using remove function</p>
+        <button data-inline="true" onclick="deleteExamples.remove()">Delete</button>
+
+        <h2>Null</h2>
+        <p>Setting a value to null also deletes all data at that node</p>
+        <button data-inline="true" onclick="deleteExamples.setNull()">Set Null</button>
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageRead">Read</a></li>
+                <li><a href="#pageWrite">Write</a></li>
+                <li><a href="#pageDelete" class="ui-btn-active ui-state-persist">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Firebase Scripts -->
+<script>
+    // Initialize Firebase
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCNi879mHenaI_ATvg5OnX_sOxRiVopCZs",
+        authDomain: "info6127-1064518.firebaseapp.com",
+        databaseURL: "https://info6127-1064518-default-rtdb.firebaseio.com",
+        projectId: "info6127-1064518",
+        storageBucket: "info6127-1064518.appspot.com",
+        messagingSenderId: "367742954095",
+        appId: "1:367742954095:web:e3b7fad4d4e512654a3b9a"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+</script>
+
+<!--    <script type="text/javascript" src="cordova.js"></script>-->
+<script type="text/javascript" src="js/index.js"></script>
+
+<!-- Start it up -->
+<script type="text/javascript">
+    app.initialize();
+</script>
+<!-- endregion -->
+</body>
+
+</html>
