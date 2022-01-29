@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="img-src 'self' data: https://code.jquery.com; default-src * 'unsafe-inline'; style-src 'self' https://code.jquery.com 'unsafe-inline'; media-src *"/>
+
+    <!-- region jQuery Mobile -->
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!-- endregion -->
+
+    <!-- region Firebase -->
+    <!-- https://firebase.google.com/docs/web/setup -->
+    <!--Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- endregion -->
+
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>Firebase List Demo</title>
+    <!--    <script src="../../../../FirebaseFunctionsDemo02/www/js/index.js"></script>-->
+</head>
+
+<body>
+
+<!-- region Page Push -->
+<div data-role="page" id="pagePush">
+    <div data-role="header">
+        <h1>Push</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>Add User</h2>
+
+        <label for="userId">User ID:</label>
+        <input type="text" name="name" id="userId" value="" data-mini="true"/>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" name="name" id="firstName" value="" data-mini="true"/>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="name" id="lastName" value="" data-mini="true"/>
+
+        <label for="age">Age:</label>
+        <input type="text" name="name" id="age" value="" data-mini="true"/>
+
+        <label for="favouriteColour">Favourite Colour:</label>
+        <input type="text" name="name" id="favouriteColour" value="" data-mini="true"/>
+
+        <button data-inline="true" onclick="app.addUser()">Add</button>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush" class="ui-btn-active ui-state-persist">Push</a></li>
+                <li><a href="#pageDisplay">Display</a></li>
+                <li><a href="#pageChildEvents">Events</a></li>
+                <li><a href="#pageOrdering">Ordering</a></li>
+                <li><a href="#pageChildEvents">Queries</a></li>
+                <li><a href="#pageListLab">Lab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Read List -->
+<div data-role="page" id="pageDisplay">
+    <div data-role="header">
+        <h1>Read List</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>Value</h2>
+        <ul data-role="listview" id="listValue" data-autodividers="false"></ul>
+
+        <h2>child_added</h2>
+        <ul data-role="listview" id="listChildAdded" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush">Push</a></li>
+                <li><a href="#pageDisplay" class="ui-btn-active ui-state-persist">Display</a></li>
+                <li><a href="#pageChildEvents">Events</a></li>
+                <li><a href="#pageOrdering">Ordering</a></li>
+                <li><a href="#pageChildEvents">Queries</a></li>
+                <li><a href="#pageListLab">Lab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Child Events -->
+<div data-role="page" id="pageChildEvents">
+    <div data-role="header">
+        <h1>Events</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>Event Log</h2>
+        <ul data-role="listview" id="listEvents" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush">Push</a></li>
+                <li><a href="#pageDisplay">Display</a></li>
+                <li><a href="#pageChildEvents" class="ui-btn-active ui-state-persist">Events</a></li>
+                <li><a href="#pageOrdering">Ordering</a></li>
+                <li><a href="#pageQueries">Queries</a></li>
+                <li><a href="#pageListLab">Lab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Ordering -->
+<div data-role="page" id="pageOrdering">
+    <div data-role="header">
+        <h1>Events</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>orderByKey</h2>
+        <ul data-role="listview" id="listOrderByKey" data-autodividers="false"></ul>
+
+        <h2>orderByChild</h2>
+        <ul data-role="listview" id="listOrderByChild" data-autodividers="false"></ul>
+
+        <h2>orderByValue</h2>
+        <ul data-role="listview" id="listOrderByValue" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush">Push</a></li>
+                <li><a href="#pageDisplay">Display</a></li>
+                <li><a href="#pageChildEvents">Events</a></li>
+                <li><a href="#pageOrdering" class="ui-btn-active ui-state-persist">Ordering</a></li>
+                <li><a href="#pageQueries">Queries</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Queries -->
+<div data-role="page" id="pageQueries">
+    <div data-role="header">
+        <h1>Events</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>equalTo</h2>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>Color:</legend>
+            <input type="radio" name="radio-choice-color" id="radio-choice-blue" value="blue" checked="checked">
+            <label for="radio-choice-blue">blue</label>
+            <input type="radio" name="radio-choice-color" id="radio-choice-red" value="red">
+            <label for="radio-choice-red">red</label>
+            <input type="radio" name="radio-choice-color" id="radio-choice-green" value="green">
+            <label for="radio-choice-green">green</label>
+        </fieldset>
+
+        <ul data-role="listview" id="listEqualTo" data-autodividers="false"></ul>
+
+        <h2>Range</h2>
+        <ul data-role="listview" id="listRange" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush">Push</a></li>
+                <li><a href="#pageDisplay">Display</a></li>
+                <li><a href="#pageChildEvents">Events</a></li>
+                <li><a href="#pageOrdering">Ordering</a></li>
+                <li><a href="#pageQueries" class="ui-btn-active ui-state-persist">Queries</a></li>
+                <li><a href="#pageListLab">Lab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Lab -->
+<div data-role="page" id="pageListLab">
+    <div data-role="header">
+        <h1>Lab</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>Add Joke</h2>
+
+        <label for="jokeText">Joke:</label>
+        <input type="text" name="name" id="jokeText" value="" data-mini="true"/>
+
+        <label for="punchlineText">Punchline:</label>
+        <input type="text" name="name" id="punchlineText" value="" data-mini="true"/>
+
+        <label for="rating">Ranking:</label>
+        <input type="text" name="name" id="rating" value="" placeholder="Ranking between 1 and 10" data-mini="true"/>
+
+        <button data-inline="true" onclick="lab.addJoke()">Add</button>
+
+        <h2>Jokes</h2>
+        <ul data-role="listview" id="listJokes" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pagePush">Push</a></li>
+                <li><a href="#pageDisplay">Display</a></li>
+                <li><a href="#pageChildEvents">Events</a></li>
+                <li><a href="#pageOrdering">Ordering</a></li>
+                <li><a href="#pageChildEvents">Queries</a></li>
+                <li><a href="#pageListLab" class="ui-btn-active ui-state-persist">Lab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+
+<!-- region Scripts -->
+<script>
+    // Initialize Firebase
+    const firebaseConfig = {
+        // TODO: Paste your config
+    };
+    firebase.initializeApp(firebaseConfig);
+</script>
+
+<!--<script type="text/javascript" src="cordova.js"></script>-->
+<script type="text/javascript" src="js/index.js"></script>
+
+<!-- Start it up -->
+<script type="text/javascript">
+    app.initialize();
+</script>
+<!-- endregion -->
+</body>
+
+</html>
