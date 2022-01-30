@@ -49,6 +49,7 @@ var app = {
     receivedEvent: function (id) {
         // TODO: Run demos from here that need to be automatically executed
 
+        lab.listJoke();
     },
 
     addUser: function () {
@@ -62,6 +63,16 @@ var app = {
 
         listExamples.setUser(user);
     }
+
+    // joke: function () {
+    //     const jokeText = document.getElementById('jokeText').value;
+    //     const punchlineText = document.getElementById('punchLineText').value;
+    //     const rating = parseInt(document.getElementById('rating').value);
+    //
+    //     var joke = new Joke(jokeText, punchlineText, rating);
+    //
+    //     lab.addJoke(joke);
+    // }
 };
 
 var listExamples = {
@@ -120,7 +131,39 @@ var listExamples = {
 var lab = {
 
     addJoke: function () {
+        const jokeText = document.getElementById('jokeText').value;
+        const punchlineText = document.getElementById('punchlineText').value;
+        const rating = parseInt(document.getElementById('rating').value);
 
+        var joke = new Joke(jokeText, punchlineText, rating);
+
+        const databaseRef = firebase.database().ref('week03/1064518/jokes').push();
+
+        databaseRef.set(joke, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Joke added successfully")
+            }
+        });
+    },
+
+    listJoke: function () {
+        const listId = "listJokes";
+
+        const databaseRef = firebase.database().ref('week03/1064518/jokes');
+
+        databaseRef
+            .orderByChild('rating')
+            .limitToFirst(5)
+            .on('value', (snapshot) => {
+                clearListItems(listId);
+                snapshot.forEach((child) => {
+                    addJokeSnapshotToList(child, listId);
+                });
+
+                formatList(listId);
+            });
     },
 
 };
@@ -134,10 +177,11 @@ function addUserSnapshotToList(snapshot, listId) {
 
 function displayItemInList(displayText, listId) {
     var itemNode = document.createElement('li');
-
     var nameNode = document.createElement('div');
+
     nameNode.appendChild(document.createTextNode(displayText));
     itemNode.appendChild(nameNode);
+
     document.getElementById(listId).appendChild(itemNode);
 }
 
@@ -148,6 +192,7 @@ function formatList(listId) {
 
 function clearListItems(listId) {
     var listElement = document.getElementById(listId);
+
     while (listElement.firstChild) {
         listElement.removeChild(listElement.firstChild);
     }
@@ -160,6 +205,27 @@ function User(userId, firstName, lastName, age, favouriteColour) {
     this.age = age;
     this.favouriteColour = favouriteColour;
 }
+
+function Joke(jokeText, punchlineText, rating) {
+    this.jokeText = jokeText;
+    this.punchlineText = punchlineText;
+    this.rating = rating;
+}
+
+function addJokeSnapshotToList(snapshot, listId) {
+    var joke = Joke.fromJokeSnapshot(snapshot);
+    console.log(snapshot.val());
+    var textToDisplay = joke.jokeText + ": " + joke.punchlineText + ": " + joke.rating;
+    displayItemInList(textToDisplay, listId);
+}
+
+Joke.fromJokeSnapshot = function (snapshot) {
+    return new Joke(
+        snapshot.val().jokeText,
+        snapshot.val().punchlineText,
+        snapshot.val().rating,
+    );
+};
 
 User.fromSnapshot = function (snapshot) {
     return new User(

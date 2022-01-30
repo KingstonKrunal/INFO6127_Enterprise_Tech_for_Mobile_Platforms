@@ -5,6 +5,10 @@
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/INFO6127-firebaseDemo/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/FirebaseListsDemo/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/INFO6127-Lab3/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/INFO6127-Lab2/platforms" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

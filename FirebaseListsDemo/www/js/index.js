@@ -62,6 +62,16 @@ var app = {
 
         listExamples.setUser(user);
     }
+
+    // joke: function () {
+    //     const jokeText = document.getElementById('jokeText').value;
+    //     const punchlineText = document.getElementById('punchLineText').value;
+    //     const rating = parseInt(document.getElementById('rating').value);
+    //
+    //     var joke = new Joke(jokeText, punchlineText, rating);
+    //
+    //     lab.addJoke(joke);
+    // }
 };
 
 var listExamples = {
@@ -120,7 +130,21 @@ var listExamples = {
 var lab = {
 
     addJoke: function () {
+        const jokeText = document.getElementById('jokeText').value;
+        const punchlineText = document.getElementById('punchLineText').value;
+        const rating = parseInt(document.getElementById('rating').value);
 
+        var joke = new Joke(jokeText, punchlineText, rating);
+
+        const databaseRef = firebase.databases().ref('week03/1064518/jokes').push();
+
+        databaseRef.set(joke, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Joke added successfully")
+            }
+        });
     },
 
 };
@@ -159,6 +183,12 @@ function User(userId, firstName, lastName, age, favouriteColour) {
     this.lastName = lastName;
     this.age = age;
     this.favouriteColour = favouriteColour;
+}
+
+function Joke(jokeText, punchlineText, rating) {
+    this.joketext = jokeText;
+    this.punchlineText = punchlineText;
+    this.rating = rating;
 }
 
 User.fromSnapshot = function (snapshot) {
