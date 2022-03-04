@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy"
+          content="img-src 'self' data: https://code.jquery.com; default-src * 'unsafe-inline'; style-src 'self' https://code.jquery.com 'unsafe-inline'; media-src *"/>
+
+    <!-- region jQuery Mobile -->
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!-- endregion -->
+
+    <!-- region Firebase -->
+    <!--Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- endregion -->
+
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>Firebase Auth</title>
+</head>
+
+<body>
+
+<!-- region Page Auth -->
+<div data-role="page" id="pageAuth">
+    <div data-role="header">
+        <h1>Authentication</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h2>Email Authentication</h2>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" value=""/>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" value=""/>
+
+        <br/>
+        <button onclick="app.loginUser()">Login</button>
+
+        <!-- authentication error messages -->
+        <div class="ui-bar ui-bar">
+            <h3 id="authError" class="error"></h3>
+        </div>
+
+
+        <!-- Display the current logged in user -->
+        <h3>Active User</h3>
+
+        <label for="authUserId">User ID:</label>
+        <input type="text" name="name" id="authUserId" value="" data-mini="true" disabled/>
+
+        <label for="authEmail">Email:</label>
+        <input type="text" name="name" id="authEmail" value="" data-mini="true" disabled/>
+
+        <button onclick="app.logoutUser()">Logout</button>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageAuth" class="ui-btn-active ui-state-persist">Auth</a></li>
+                <li><a href="#pageMyJokes">My Jokes</a></li>
+                <li><a href="#pageVote">Vote</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Jokes -->
+<div data-role="page" id="pageMyJokes">
+    <div data-role="header">
+        <h1>My Jokes</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <h3>New Joke</h3>
+
+        <label for="joke">Joke:</label>
+        <input type="text" name="name" id="joke" value="" data-mini="true"/>
+
+        <label for="punchline">Punchline:</label>
+        <input type="text" name="name" id="punchline" value="" data-mini="true"/>
+
+        <div class="ui-field-contain">
+            <label for="select-category">Category:</label>
+            <select name="select-category" id="select-category" data-iconpos="left">
+                <option value="1">General</option>
+                <option value="2">IT</option>
+                <option value="3">Crossing Roads</option>
+                <option value="4">Dad Joke</option>
+            </select>
+        </div>
+
+        <button class="ui-btn" onclick="app.addJoke()">Add Joke</button>
+
+        <h3>My Jokes</h3>
+        <ul data-role="listview" id="myJokes" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageAuth">Auth</a></li>
+                <li><a href="#pageMyJokes" class="ui-btn-active ui-state-persist">My Jokes</a></li>
+                <li><a href="#pageVote">Vote</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Page Vote -->
+<div data-role="page" id="pageVote">
+    <div data-role="header">
+        <h1>Vote</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+        <ul data-role="listview" id="allJokes" data-autodividers="false"></ul>
+
+    </div>
+
+    <div data-role="footer" data-id="navFooter" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#pageAuth">Auth</a></li>
+                <li><a href="#pageMyJokes">My Jokes</a></li>
+                <li><a href="#pageVote" class="ui-btn-active ui-state-persist">Vote</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- endregion -->
+
+<!-- region Firebase Scripts -->
+<!-- TODO: Paste your config here -->
+<script>
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBY0qtphYAuARM31fbMvjwO-MxxjoDcMzo",
+        authDomain: "info6127-class-22w.firebaseapp.com",
+        databaseURL: "https://info6127-class-22w-default-rtdb.firebaseio.com",
+        projectId: "info6127-class-22w",
+        storageBucket: "info6127-class-22w.appspot.com",
+        messagingSenderId: "646449956649",
+        appId: "1:646449956649:web:fca935d7c9528721e25938",
+        measurementId: "G-NJS8P7E190"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+</script>
+
+<!--    <script type="text/javascript" src="cordova.js"></script>-->
+<script type="text/javascript" src="js/index.js"></script>
+
+<!-- Start it up -->
+<script type="text/javascript">
+    app.initialize();
+</script>
+<!-- endregion -->
+</body>
+
+</html>

@@ -9,8 +9,11 @@
       <excludeFolder url="file://$MODULE_DIR$/FirebaseListsDemo/platforms" />
       <excludeFolder url="file://$MODULE_DIR$/INFO6127-Lab3/platforms" />
       <excludeFolder url="file://$MODULE_DIR$/INFO6127-Lab2/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/firebaseDemoAuth/platforms" />
+      <excludeFolder url="file://$MODULE_DIR$/INFO6127-Lab4/platforms" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="firebase-auth" level="application" />
   </component>
 </module>

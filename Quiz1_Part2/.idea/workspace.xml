@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb34146d-41cb-41db-8164-34cb606af502" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../FirebaseListsDemo/.idea/FirebaseFunctionsDemo01.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Quiz1_Part2.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Quiz1_Part2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+    <list default="true" id="bb34146d-41cb-41db-8164-34cb606af502" name="Changes" comment="Quiz 1 - Part 2 Added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +33,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
@@ -62,8 +56,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644369839242</updated>
-      <workItem from="1644369840581" duration="3396000" />
+      <workItem from="1644369840581" duration="3650000" />
+      <workItem from="1644965448974" duration="2804000" />
+      <workItem from="1645645002622" duration="36000" />
     </task>
+    <task id="LOCAL-00001" summary="Quiz 1 - Part 2 Added">
+      <created>1644373635541</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644373635541</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,5 +83,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Quiz 1 - Part 2 Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Quiz 1 - Part 2 Added" />
   </component>
 </project>
