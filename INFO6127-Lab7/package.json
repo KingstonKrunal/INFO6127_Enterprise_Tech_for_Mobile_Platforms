@@ -1,0 +1,16 @@
+{
+  "name": "info6127-lab7",
+  "version": "1.0.0",
+  "description": "INFO 6127 Lab 7",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Krunal Shah",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "underscore": "^1.13.2"
+  }
+}
